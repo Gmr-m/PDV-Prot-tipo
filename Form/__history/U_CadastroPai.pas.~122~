@@ -1,0 +1,107 @@
+unit U_CadastroPai;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.StdCtrls, Vcl.Buttons,
+  UdmDados, Data.DB;
+
+type
+  TF_CadastroPai = class(TForm)
+    pnl_centralCadPai: TPanel;
+    pnl_MenuCadastro: TPanel;
+    pnl_btnsalvar: TPanel;
+    pnl_btnsair: TPanel;
+    btn_sair: TSpeedButton;
+    btn_salvar: TSpeedButton;
+    ID_Cliente: TLabel;
+    ed_ID: TEdit;
+    lb_RazaoSocial: TLabel;
+    ed_RazaoSocial: TEdit;
+    lb_Fantasia: TLabel;
+    ed_NFantasia: TEdit;
+    lb_CPFCNPJ: TLabel;
+    ed_CPFCNPJ: TEdit;
+    lb_tipo: TLabel;
+    C_FJ: TComboBox;
+    lb_Nome: TLabel;
+    ed_Nome: TEdit;
+    ed_Email: TEdit;
+    lb_email: TLabel;
+    lb_cep: TLabel;
+    ed_Cep: TEdit;
+    lb_cidade: TLabel;
+    ed_Cidade: TEdit;
+    lb_endereco: TLabel;
+    ed_endereco: TEdit;
+    lb_numero: TLabel;
+    ed_numero: TEdit;
+    lb_Bairro: TLabel;
+    ed_Bairro: TEdit;
+    lb_IE: TLabel;
+    ed_IE: TEdit;
+    procedure btn_sairClick(Sender: TObject);
+    procedure btn_salvarMouseEnter(Sender: TObject);
+    procedure btn_salvarMouseLeave(Sender: TObject);
+    procedure btn_sairMouseEnter(Sender: TObject);
+    procedure btn_sairMouseLeave(Sender: TObject);
+    procedure btn_salvarClick(Sender: TObject);
+  private
+    { Private declarations }
+    _nome : String;
+    procedure setNome;
+  public
+    { Public declarations }
+
+  end;
+
+var
+  F_CadastroPai: TF_CadastroPai;
+  conexao      : TConexao;
+
+implementation
+
+{$R *.dfm}
+
+uses U_conexao;
+
+
+procedure TF_CadastroPai.btn_sairClick(Sender: TObject);
+begin
+  self.Close;
+end;
+
+procedure TF_CadastroPai.btn_salvarClick(Sender: TObject);
+begin
+  self.Close;
+
+  .limpaQry;
+end;
+
+procedure TF_CadastroPai.btn_salvarMouseEnter(Sender: TObject);
+begin
+  pnl_btnsalvar.Color := $006F6F3F;
+end;
+
+procedure TF_CadastroPai.btn_salvarMouseLeave(Sender: TObject);
+begin
+  pnl_btnsalvar.Color := $00AFAF7F
+end;
+
+procedure TF_CadastroPai.setNome;
+begin
+  //procedure da property
+end;
+
+procedure TF_CadastroPai.btn_sairMouseEnter(Sender: TObject);
+begin
+  pnl_btnsair.Color := $006F6F3F;
+end;
+
+procedure TF_CadastroPai.btn_sairMouseLeave(Sender: TObject);
+begin
+  pnl_btnsair.Color := $00AFAF7F
+end;
+
+end.

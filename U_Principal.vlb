@@ -1,0 +1,10 @@
+﻿[pnl_TelaPrincipal]
+Coordinates=75,10,114,58
+
+[]
+Coordinates=114,77,91,36
+
+[pnl_menulateral]
+Coordinates=10,10,55,58
+Visible=True
+

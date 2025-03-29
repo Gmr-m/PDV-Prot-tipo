@@ -1,0 +1,134 @@
+unit U_conexao;
+
+interface
+
+uses
+  FireDac.Comp.Client, FireDac.Stan.Intf, UBiblioteca, System.SysUtils, IniFiles, Vcl.forms,
+  U_ConfigBanco, Vcl.Dialogs, Winapi.Windows, Winapi.Messages;
+
+type
+Tconexao = class
+  private
+    //Variáveis da conexão com o DBF
+    F_Base    : String;
+    F_User    : String;
+    F_Senha   : String;
+    vFileName : String;
+    F_msgErro : String;
+    F_Conexao : TFDConnection;
+
+
+
+  public
+
+
+
+    Constructor create(NomeConexao : TFDConnection);
+    Destructor Destroy; override;
+    function fnc_conectar_dados : Boolean;
+    function fnc_configurar_dados :Boolean;
+    procedure extrairDadosCnx;
+
+    property Conexao : TFDConnection Read  F_Conexao Write F_Conexao;
+    property Base    : String Read F_Base  Write F_base;
+    property User    : String Read F_User  Write F_User;
+    Property Senha   : String Read F_Senha Write F_Senha;
+    Property msgErro : String Read F_msgErro Write F_msgErro;
+    Property FileNme : String Read vFileName write vFileName;
+
+
+
+
+end;
+
+implementation
+
+{ Tconexao }
+
+uses UdmDados;
+
+
+//Estrutura da Conexão *TFDCONNECTION*
+constructor Tconexao.create(NomeConexao: TFDConnection);
+begin
+  F_Conexao := NomeConexao;
+end;
+
+destructor Tconexao.Destroy;
+begin
+  F_conexao.Connected := false;
+
+  inherited;
+end;
+
+procedure Tconexao.extrairDadosCnx;
+begin
+
+  F_Base  := GetValorIni(ExtractFilePath(Application.ExeName) + 'config.ini', 'CONFIGURACAO', 'LOCAL_DB');
+  F_User  := GetValorIni(ExtractFilePath(Application.ExeName) + 'config.ini', 'CONFIGURACAO', 'USER_DB');
+  F_Senha := GetValorIni(ExtractFilePath(Application.ExeName) + 'config.ini', 'CONFIGURACAO', 'SENHA_DB');
+
+  with F_conexao do
+    begin
+
+      Connected := False;
+      Params.Clear;
+      Params.Add('DriverID=' + 'FB');
+      Params.Add('user_name=' + F_User);
+      Params.Add('password=' + F_Senha);
+      Params.Add('Database=' + F_Base);
+
+    end;
+
+end;
+
+function Tconexao.fnc_conectar_dados: Boolean;
+begin
+  F_msgErro := '';
+  result := True;
+  extrairDadosCnx;
+
+  try
+    F_Conexao.Connected := True;
+  except
+    on e:exception do
+    begin
+      F_msgErro := e.Message;
+      result := false;
+      ShowMessage(F_msgErro);
+      F_ConfigBanco.ShowModal;
+      exit
+    end;
+
+  end;
+
+end;
+
+
+function Tconexao.fnc_configurar_dados: Boolean;
+begin
+  F_msgErro := '';
+  result := True;
+  extrairDadosCnx;
+
+    try
+      F_conexao.Connected := True;
+    except
+      on e:Exception do
+      begin
+        F_msgErro := e.Message;
+        result := False;
+        Application.MessageBox(pChar('' + #13 +F_msgErro),'Erro', MB_OK + MB_ICONWARNING);
+        exit
+      end;
+
+    end;
+
+
+end;
+
+//Config da Query
+
+
+
+end.
